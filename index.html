@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Tablet - 텍스트 가독성 개선 도구</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📖 Reading Tablet</h1>
+            <p class="subtitle">텍스트 가독성을 개선하는 스마트 포매터</p>
+        </header>
+
+        <main>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="fileInput" class="btn btn-secondary">
+                        📁 파일 불러오기
+                        <input type="file" id="fileInput" accept=".txt,.md" hidden>
+                    </label>
+                    <button id="clearBtn" class="btn btn-secondary">🗑️ 지우기</button>
+                </div>
+
+                <div class="control-group">
+                    <button id="formatBtn" class="btn btn-primary">✨ 포맷팅</button>
+                    <button id="copyBtn" class="btn btn-secondary">📋 복사</button>
+                    <button id="downloadBtn" class="btn btn-secondary">💾 저장</button>
+                </div>
+
+                <div class="control-group settings">
+                    <button id="themeToggle" class="btn btn-icon" title="다크모드 전환">🌙</button>
+                    <select id="fontSize" class="select">
+                        <option value="small">작게</option>
+                        <option value="medium" selected>보통</option>
+                        <option value="large">크게</option>
+                        <option value="xlarge">매우 크게</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="editor-container">
+                <div class="input-panel">
+                    <div class="panel-header">
+                        <h2>원본 텍스트</h2>
+                        <span class="char-count" id="inputCount">0자</span>
+                    </div>
+                    <textarea
+                        id="inputText"
+                        class="text-area"
+                        placeholder="여기에 텍스트를 붙여넣거나 파일을 불러오세요...&#10;&#10;예시:&#10;(00:00) 결국 문제를 해결하기 위해 많은 사람들이 방법으로 연구실에서 의학연서 3개월이 걸렸습니다. 저는 Claude에게 이 문제를 제기했습니다. (00:20) 안녕하세요, 애릭 카우데라-아브람스입니다..."></textarea>
+                </div>
+
+                <div class="output-panel">
+                    <div class="panel-header">
+                        <h2>포맷팅 결과</h2>
+                        <span class="char-count" id="outputCount">0자</span>
+                    </div>
+                    <div id="outputText" class="text-area output" contenteditable="false">
+                        <div class="placeholder">
+                            포맷팅 버튼을 눌러 결과를 확인하세요
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>💡 자동 저장이 활성화되어 있습니다</p>
+        </footer>
+    </div>
+
+    <script src="js/formatter.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
