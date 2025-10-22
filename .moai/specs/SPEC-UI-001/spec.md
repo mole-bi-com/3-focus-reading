@@ -1,7 +1,7 @@
 ---
 id: UI-001
-version: 0.0.1
-status: draft
+version: 0.1.0
+status: completed
 created: 2025-10-22
 updated: 2025-10-22
 author: @seungwoolee
@@ -23,6 +23,18 @@ scope:
 # @SPEC:UI-001: UI 컴팩트화 (3문장 윈도우 최적화)
 
 ## HISTORY
+
+### v0.1.0 (2025-10-22)
+- **IMPLEMENTATION COMPLETED**: UI 컴팩트화 완료 (version: 0.0.1 → 0.1.0, status: draft → completed)
+- **AUTHOR**: @seungwoolee
+- **CHANGES**:
+  - 레이아웃 비율 변경: 50:50 → 30:70 (입력 축소, 출력 확대)
+  - 출력창 센터 정렬: max-width 600px (3문장 최적 너비)
+  - 여백 최적화: padding/margin 축소, line-height 1.8 → 1.6
+  - 포커스 모드 강화: 입력창 숨김, 출력창 700px 센터 정렬
+  - 반응형 디자인: 데스크톱(30/70), 태블릿(35/65), 모바일(세로 스택)
+- **TAG CHAIN**: @SPEC:UI-001 → @CODE:UI-001 (css/style.css)
+- **COMPATIBILITY**: 기존 JavaScript 코드 100% 호환 (CSS만 수정)
 
 ### v0.0.1 (2025-10-22)
 - **INITIAL**: 3문장 슬라이딩 윈도우에 최적화된 컴팩트 레이아웃 명세 작성
