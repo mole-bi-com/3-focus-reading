@@ -2,9 +2,25 @@
 // Phase 3: MilestoneAnimator 클래스 - Canvas 기반 폭죽 애니메이션
 //
 // TDD 이력:
-// - RED: tests/progress/milestone-animator.test.js 작성 (150개 파티클, 6그룹, 60fps)
+// - RED: tests/progress/milestone-animator.test.js 작성 (24개 테스트 케이스)
+//   - Canvas 모킹 (happy-dom 환경)
+//   - 150개 파티클 발사 (6그룹 × 25개, 83.33ms 간격)
+//   - 60fps 렌더링 루프 검증
+//   - prefers-reduced-motion 접근성 지원
+//   - 토스트 메시지 시스템 (2초 표시, 0.5초 페이드아웃)
+//
 // - GREEN: Canvas 애니메이션 렌더링 루프 구현
-// - REFACTOR: 배치 렌더링 최적화, TDD 주석 추가
+//   - requestAnimationFrame 기반 60fps 루프
+//   - 시간 기반 파티클 그룹 발사 (launchGroups)
+//   - 파티클 생명주기 관리 (update → render)
+//   - 3초 자동 종료 메커니즘
+//   - 무지개 7색 파티클 생성
+//
+// - REFACTOR: Canvas 렌더링 최적화
+//   - 색상별 배치 렌더링 (fillStyle 변경 최소화)
+//   - 상수 추출 (ANIMATION_DURATION, GROUP_COUNT 등)
+//   - JSDoc 주석 강화 (모든 public 메서드)
+//   - TDD 이력 상세화
 
 import { Particle } from './particle.js';
 
@@ -196,28 +212,44 @@ export class MilestoneAnimator {
   }
 
   /**
-   * 파티클 렌더링
+   * 파티클 렌더링 (배치 최적화)
    *
    * Canvas에 모든 파티클을 그립니다.
+   * 성능 최적화:
+   * - 색상별로 파티클을 그룹화하여 배치 렌더링
+   * - globalAlpha, fillStyle 변경 최소화
    */
   render() {
     // Canvas 지우기
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // 모든 파티클 그리기
-    this.particles.forEach((p) => {
-      this.ctx.globalAlpha = p.life;
-      this.ctx.fillStyle = p.color;
+    // 색상별로 파티클 그룹화 (배치 렌더링 최적화)
+    const particlesByColor = new Map();
 
-      if (p.type === 'circle') {
-        this.ctx.beginPath();
-        this.ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
-        this.ctx.fill();
-      } else if (p.type === 'star') {
-        this.drawStar(p.x, p.y, 5, 3, 5);
-      } else if (p.type === 'sparkle') {
-        this.drawSparkle(p.x, p.y, 4);
+    this.particles.forEach((p) => {
+      if (!particlesByColor.has(p.color)) {
+        particlesByColor.set(p.color, []);
       }
+      particlesByColor.get(p.color).push(p);
+    });
+
+    // 색상별로 한 번에 렌더링
+    particlesByColor.forEach((particles, color) => {
+      this.ctx.fillStyle = color;
+
+      particles.forEach((p) => {
+        this.ctx.globalAlpha = p.life;
+
+        if (p.type === 'circle') {
+          this.ctx.beginPath();
+          this.ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+          this.ctx.fill();
+        } else if (p.type === 'star') {
+          this.drawStar(p.x, p.y, 5, 3, 5);
+        } else if (p.type === 'sparkle') {
+          this.drawSparkle(p.x, p.y, 4);
+        }
+      });
     });
 
     this.ctx.globalAlpha = 1;
