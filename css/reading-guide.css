@@ -7,7 +7,100 @@
  * - 단락 상태별 스타일 (past, current, future)
  * - 포커스 모드 블러 효과
  * - 가이드 컨트롤 패널
+ * - 원본 패널 토글 (@CODE:GUIDE-001-v0.0.2)
  */
+
+/* ===== @CODE:GUIDE-001-v0.0.2: 원본 패널 토글 ===== */
+
+/**
+ * 가이드 활성화 시 원본 패널(.input-panel) 숨김
+ * 포맷팅 결과(.output-panel)가 전체 화면 차지
+ */
+body.guide-active .input-panel {
+    flex: 0;
+    width: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+body.guide-active .output-panel {
+    flex: 1;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+/* ===== @CODE:GUIDE-001-v0.0.3: 가이드 모드 완전 몰입 UI ===== */
+
+/**
+ * 가이드 활성화 시 헤더, 컨트롤, 푸터 숨김
+ * 하이라이트된 문장만 화면 정중앙에 표시
+ */
+body.guide-active header,
+body.guide-active .controls,
+body.guide-active footer {
+    display: none;
+}
+
+body.guide-active .editor-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.guide-active .output-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+body.guide-active .panel-header {
+    display: none;
+}
+
+body.guide-active #outputText {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: auto;
+    padding: var(--spacing-xl);
+    text-align: center;
+}
+
+/* 3문장 슬라이딩 윈도우: 이전 - 현재 - 다음 */
+body.guide-active .sentence.hidden {
+    display: none !important;
+}
+
+/* 이전 문장 (위쪽, 흐리게) */
+body.guide-active .sentence.read-past {
+    display: block;
+    font-size: 1.5rem;
+    line-height: 1.6;
+    opacity: 0.4;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* 현재 문장 (정중앙, 강조) */
+body.guide-active .sentence.read-current {
+    display: block;
+    font-size: 2rem;
+    line-height: 1.8;
+    max-width: 800px;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* 다음 문장 (아래쪽, 흐리게) */
+body.guide-active .sentence.read-future {
+    display: block;
+    font-size: 1.5rem;
+    line-height: 1.6;
+    opacity: 0.4;
+    color: var(--text-secondary);
+}
 
 /* ===== 가이드 모드 문장 상태 ===== */
 

@@ -47,6 +47,7 @@ class ReadingGuide {
 
     /**
      * 가이드 모드 시작 - 문장 단위로 분리
+     * @CODE:GUIDE-001-v0.0.2 - 원본 패널 토글 기능 추가
      */
     start() {
         this._log('start() 메서드 시작');
@@ -102,17 +103,24 @@ class ReadingGuide {
         this.updateSentenceStates();
         this.attachKeyboardEvents();
 
+        // @CODE:GUIDE-001-v0.0.2 - 원본 패널 숨김 (body에 클래스 추가)
+        document.body.classList.add('guide-active');
+
         this._log('start() 메서드 완료');
     }
 
     /**
      * 가이드 모드 종료
+     * @CODE:GUIDE-001-v0.0.2 - 원본 패널 토글 기능 추가
      */
     stop() {
         this.isActive = false;
         this.disableFocusMode();
         this.clearSentenceStates();
         this.detachKeyboardEvents();
+
+        // @CODE:GUIDE-001-v0.0.2 - 원본 패널 표시 (body에서 클래스 제거)
+        document.body.classList.remove('guide-active');
     }
 
     /**
