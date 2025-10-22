@@ -1,7 +1,7 @@
 ---
 id: BRAND-001
-version: 0.0.1
-status: draft
+version: 0.1.0
+status: completed
 created: 2025-10-22
 updated: 2025-10-22
 author: @seungwoolee
@@ -25,6 +25,17 @@ scope:
 # @SPEC:BRAND-001: 브랜딩 리팩토링
 
 ## HISTORY
+
+### v0.1.0 (2025-10-22)
+- **IMPLEMENTATION COMPLETED**: TDD 구현 완료 (version: 0.0.1 → 0.1.0, status: draft → completed)
+- **AUTHOR**: @seungwoolee
+- **CHANGES**:
+  - 브랜딩 일괄 변경: "Reading Tablet" → "3-focus-reading"
+  - 변경 파일 8개: index.html, README.md, CLAUDE.md, js/app.js, css/style.css, .moai/project/{product,structure,tech}.md
+  - 아이콘 변경: 📖 → 🎯 (집중 의미 강화)
+  - 서브타이틀: "텍스트 가독성 개선" → "3문장 슬라이딩 윈도우 기반 집중 읽기"
+- **TAG CHAIN**: @SPEC:BRAND-001 → @CODE:BRAND-001 (8개 파일)
+- **VERIFICATION**: rg 검증 통과 (모든 "Reading Tablet" → "3-focus-reading" 변환 완료)
 
 ### v0.0.1 (2025-10-22)
 - **INITIAL**: "Reading Tablet" → "3-focus-reading" 일괄 변경 명세 작성
