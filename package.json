@@ -1,0 +1,26 @@
+{
+  "name": "reading-tablet",
+  "version": "1.0.0",
+  "description": "Text readability improvement tool with karaoke-style reading guide",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "test:ui": "vitest --ui",
+    "dev": "python3 -m http.server 8000",
+    "start": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "reading",
+    "accessibility",
+    "text-formatter"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@vitest/browser": "^3.2.4",
+    "@vitest/coverage-v8": "^3.2.4",
+    "happy-dom": "^20.0.7",
+    "vitest": "^3.2.4"
+  }
+}

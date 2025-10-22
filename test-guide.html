@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Guide Test</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/reading-guide.css">
+    <style>
+        body { padding: 20px; }
+        #outputText { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 8px;
+            max-width: 100%;
+            width: 100%;
+        }
+        .test-controls {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 8px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-controls">
+        <h2>Reading Guide 테스트</h2>
+        <button id="startBtn">📖 가이드 시작</button>
+        <button id="stopBtn">⏹️ 가이드 종료</button>
+        <button id="focusBtn">🎯 포커스 모드</button>
+        <div style="margin-top: 10px;">
+            <strong>키보드:</strong> ← (이전) | → (다음) | F (포커스) | Esc (종료)
+        </div>
+    </div>
+
+    <div id="outputText">
+        <p>하지만 지난 10년간 일어난 모든 일의 로그 프로브가 가중치를 늘어가나 낮춰서 그런 것은 아닙니다.</p>
+        <p>훨씬 더 의도적이고 풍부한 무언가가 일어나고 있습니다.</p>
+        <p>ML의 비유는 무엇이며, 현재 우리가 하고 있는 LLM과 어떻게 비교될 수 있나요?</p>
+    </div>
+
+    <script type="module">
+        import ReadingGuide from './js/reading-guide.js';
+        
+        const guide = new ReadingGuide();
+        
+        document.getElementById('startBtn').addEventListener('click', () => {
+            try {
+                guide.start();
+                console.log('가이드 시작됨');
+                console.log('문장 개수:', guide.sentences.length);
+                console.log('활성화 상태:', guide.isActive);
+            } catch(error) {
+                console.error('가이드 시작 실패:', error);
+                alert('오류: ' + error.message);
+            }
+        });
+
+        document.getElementById('stopBtn').addEventListener('click', () => {
+            guide.stop();
+            console.log('가이드 종료됨');
+        });
+
+        document.getElementById('focusBtn').addEventListener('click', () => {
+            if (guide.isFocusMode) {
+                guide.disableFocusMode();
+                console.log('포커스 모드 OFF');
+            } else {
+                guide.enableFocusMode();
+                console.log('포커스 모드 ON');
+            }
+        });
+
+        // 키보드 이벤트 로깅
+        document.addEventListener('keydown', (e) => {
+            console.log('Document keydown:', e.key, 'Target:', e.target.tagName);
+        });
+    </script>
+</body>
+</html>

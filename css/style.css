@@ -205,6 +205,15 @@ header h1 {
     margin-bottom: var(--spacing-xl);
 }
 
+/* 입력 패널 숨김 시 출력 패널만 표시 */
+.editor-container:has(.input-panel[style*="display: none"]) {
+    grid-template-columns: 1fr;
+}
+
+.output-panel.fullwidth {
+    grid-column: 1 / -1;
+}
+
 @media (max-width: 1024px) {
     .editor-container {
         grid-template-columns: 1fr;
@@ -420,4 +429,10 @@ footer {
 ::selection {
     background: var(--accent-color);
     color: white;
+}
+
+/* ===== 포맷팅 후 출력창 전체 폭 ===== */
+.output-panel.fullwidth {
+    grid-column: 1 / -1;
+    max-width: 100%;
 }

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reading Tablet - 텍스트 가독성 개선 도구</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/reading-guide.css">
 </head>
 <body>
     <div class="container">
@@ -16,17 +17,17 @@
         <main>
             <div class="controls">
                 <div class="control-group">
-                    <label for="fileInput" class="btn btn-secondary">
-                        📁 파일 불러오기
-                        <input type="file" id="fileInput" accept=".txt,.md" hidden>
-                    </label>
-                    <button id="clearBtn" class="btn btn-secondary">🗑️ 지우기</button>
+                    <button id="formatBtn" class="btn btn-primary">✨ 포맷팅</button>
+                    <button id="refreshBtn" class="btn btn-secondary">🔄 새로고침</button>
                 </div>
 
                 <div class="control-group">
-                    <button id="formatBtn" class="btn btn-primary">✨ 포맷팅</button>
                     <button id="copyBtn" class="btn btn-secondary">📋 복사</button>
                     <button id="downloadBtn" class="btn btn-secondary">💾 저장</button>
+                    <label for="fileInput" class="btn btn-secondary">
+                        📁 불러오기
+                        <input type="file" id="fileInput" accept=".txt,.md" hidden>
+                    </label>
                 </div>
 
                 <div class="control-group settings">
@@ -72,6 +73,6 @@
     </div>
 
     <script src="js/formatter.js"></script>
-    <script src="js/app.js"></script>
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>

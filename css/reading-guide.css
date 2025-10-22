@@ -1,0 +1,268 @@
+/**
+ * @CODE:GUIDE-001 | SPEC: .moai/specs/SPEC-GUIDE-001/spec.md
+ *
+ * Reading Guide 스타일 - 노래방 스타일 읽기 가이드 모드
+ *
+ * 주요 기능:
+ * - 단락 상태별 스타일 (past, current, future)
+ * - 포커스 모드 블러 효과
+ * - 가이드 컨트롤 패널
+ */
+
+/* ===== 가이드 모드 문장 상태 ===== */
+
+/* 문장 기본 스타일 */
+.sentence {
+    display: inline;
+    transition: all 0.3s ease;
+}
+
+/* 읽은 문장 (past) */
+.sentence.read-past {
+    opacity: 0.4;
+    color: var(--text-secondary);
+}
+
+/* 현재 읽고 있는 문장 (current) - 형광펜 스타일 */
+.sentence.read-current {
+    background: linear-gradient(180deg, transparent 0%, transparent 20%, #ffeb3b 20%, #ffeb3b 80%, transparent 80%, transparent 100%);
+    color: #000;
+    font-weight: 700;
+    padding: 2px 4px;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+    position: relative;
+    animation: highlightPulse 0.3s ease;
+}
+
+@keyframes highlightPulse {
+    0% {
+        background-position: -100% 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+/* 아직 읽지 않은 문장 (future) */
+.sentence.read-future {
+    opacity: 0.7;
+}
+
+/* 범위 밖 문장 숨김 (현재 문장 ±1 범위 밖) */
+.sentence.hidden {
+    display: none;
+}
+
+/* 포커스 모드 - 블러 처리 */
+.sentence.focus-blurred {
+    filter: blur(3px);
+    opacity: 0.3;
+    transition: all 0.3s ease;
+}
+
+/* ===== 포커스 모드 (블러 효과) ===== */
+
+#outputText.guide-focus p {
+    filter: blur(3px);
+    transition: filter 0.3s ease;
+}
+
+#outputText.guide-focus p.read-current {
+    filter: blur(0);
+}
+
+/* ===== 가이드 컨트롤 패널 ===== */
+
+.guide-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin-bottom: var(--spacing-xl);
+    flex-wrap: wrap;
+}
+
+.guide-controls.hidden {
+    display: none;
+}
+
+.guide-control-group {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+/* 가이드 토글 버튼 */
+#guideToggle {
+    background: var(--accent-color);
+    color: white;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#guideToggle:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+}
+
+#guideToggle.active {
+    background: var(--error-color);
+}
+
+/* 네비게이션 버튼 */
+#guidePrev,
+#guideNext {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1.2rem;
+}
+
+#guidePrev:hover,
+#guideNext:hover {
+    background: var(--border-color);
+    transform: translateY(-1px);
+}
+
+#guidePrev:disabled,
+#guideNext:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 포커스 모드 토글 */
+#guideFocus {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#guideFocus:hover {
+    background: var(--border-color);
+}
+
+#guideFocus.active {
+    background: var(--accent-color);
+    color: white;
+}
+
+/* WPM 슬라이더 */
+.wpm-control {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.wpm-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+#guideWpm {
+    width: 150px;
+    accent-color: var(--accent-color);
+}
+
+#guideWpmValue {
+    min-width: 60px;
+    font-weight: 600;
+    color: var(--accent-color);
+    text-align: center;
+}
+
+/* ===== 반응형 디자인 ===== */
+
+@media (max-width: 768px) {
+    .guide-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .guide-control-group {
+        width: 100%;
+        justify-content: center;
+    }
+
+    #guideWpm {
+        width: 100%;
+    }
+
+    #outputText p.read-current::before {
+        left: -12px;
+    }
+}
+
+/* ===== 접근성 개선 ===== */
+
+@media (prefers-reduced-motion: reduce) {
+    #outputText p,
+    #outputText.guide-focus p,
+    #guideToggle,
+    #guidePrev,
+    #guideNext,
+    #guideFocus {
+        transition: none !important;
+    }
+
+    #outputText p.read-current {
+        transform: none;
+    }
+}
+
+/* 다크 모드 최적화 */
+[data-theme="dark"] #outputText p.read-current {
+    -webkit-text-fill-color: var(--accent-color);
+}
+
+[data-theme="dark"] #outputText.guide-focus p {
+    filter: blur(4px);
+}
+
+/* ===== 인라인 가이드 컨트롤 (상단 버튼 영역) ===== */
+.guide-controls-inline {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.wpm-control-inline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 12px;
+    border-left: 1px solid var(--border-color);
+}
+
+.wpm-label {
+    font-size: 14px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.wpm-value {
+    min-width: 40px;
+    text-align: center;
+    font-weight: 600;
+    color: var(--accent-color);
+}
+
+#guideWpm {
+    width: 120px;
+}

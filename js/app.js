@@ -7,11 +7,13 @@ class ReadingTabletApp {
         this.formatter = new TextFormatter();
         this.currentTheme = 'light';
         this.autoSaveKey = 'reading-tablet-autosave';
+        this.readingGuide = null; // ReadingGuide 인스턴스
 
         this.initElements();
         this.initEventListeners();
         this.loadAutoSave();
         this.loadTheme();
+        this.initReadingGuide();
     }
 
     initElements() {
@@ -20,6 +22,8 @@ class ReadingTabletApp {
         this.outputText = document.getElementById('outputText');
         this.inputCount = document.getElementById('inputCount');
         this.outputCount = document.getElementById('outputCount');
+        this.inputPanel = document.querySelector('.input-panel');
+        this.outputPanel = document.querySelector('.output-panel');
 
         // Buttons
         this.formatBtn = document.getElementById('formatBtn');
@@ -29,14 +33,17 @@ class ReadingTabletApp {
         this.fileInput = document.getElementById('fileInput');
         this.themeToggle = document.getElementById('themeToggle');
         this.fontSize = document.getElementById('fontSize');
+
+        // 새로고침 버튼
+        this.refreshBtn = document.getElementById('refreshBtn');
     }
 
     initEventListeners() {
         // Format button
         this.formatBtn.addEventListener('click', () => this.formatText());
 
-        // Clear button
-        this.clearBtn.addEventListener('click', () => this.clearAll());
+        // Refresh button - 새로고침 (입력창 다시 보이기)
+        this.refreshBtn.addEventListener('click', () => this.refresh());
 
         // Copy button
         this.copyBtn.addEventListener('click', () => this.copyToClipboard());
@@ -96,12 +103,32 @@ class ReadingTabletApp {
         // 성공 메시지
         const stats = this.formatter.getStats(formatted);
         this.showMessage(
-            `포맷팅 완료: ${stats.paragraphs}개 단락, ${stats.sentences}개 문장`,
+            `포맷팅 완료: ${stats.paragraphs}개 단락, ${stats.sentences}개 문장. 좌우 화살표 키로 문장을 이동하세요.`,
             'success'
         );
 
+        // 입력 패널 숨기고 출력 패널만 표시
+        if (this.inputPanel) {
+            this.inputPanel.style.display = 'none';
+        }
+        if (this.outputPanel) {
+            this.outputPanel.classList.add('fullwidth');
+            this.outputPanel.style.flex = '1';
+            this.outputPanel.style.maxWidth = '100%';
+        }
+
         // 출력 영역으로 스크롤
         this.outputText.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // 자동으로 읽기 가이드 시작
+        if (this.readingGuide) {
+            try {
+                this.readingGuide.start();
+                console.log('자동 가이드 시작 완료');
+            } catch (error) {
+                console.error('자동 가이드 시작 실패:', error);
+            }
+        }
     }
 
     clearAll() {
@@ -114,7 +141,49 @@ class ReadingTabletApp {
         this.updateCharCount();
         this.updateOutputCount('');
         localStorage.removeItem(this.autoSaveKey);
+
+        // 입력 패널 다시 표시
+        if (this.inputPanel) {
+            this.inputPanel.style.display = '';
+        }
+        if (this.outputPanel) {
+            this.outputPanel.classList.remove('fullwidth');
+            this.outputPanel.style.flex = '';
+            this.outputPanel.style.maxWidth = '';
+        }
+
+        // 가이드 모드 종료 및 컨트롤 숨기기
+        if (this.readingGuide && this.readingGuide.isActive) {
+            this.readingGuide.stop();
+        }
+        if (this.guideControls) {
+            this.guideControls.classList.add('hidden');
+        }
+
         this.showMessage('모든 내용이 지워졌습니다', 'info');
+    }
+
+    refresh() {
+        // 가이드 모드 종료
+        if (this.readingGuide && this.readingGuide.isActive) {
+            this.readingGuide.stop();
+        }
+
+        // 출력 초기화
+        this.outputText.innerHTML = '<div class="placeholder">포맷팅 버튼을 눌러 결과를 확인하세요</div>';
+        this.updateOutputCount('');
+
+        // 입력 패널 다시 표시
+        if (this.inputPanel) {
+            this.inputPanel.style.display = '';
+        }
+        if (this.outputPanel) {
+            this.outputPanel.classList.remove('fullwidth');
+            this.outputPanel.style.flex = '';
+            this.outputPanel.style.maxWidth = '';
+        }
+
+        this.showMessage('새로운 텍스트를 입력할 수 있습니다', 'info');
     }
 
     async copyToClipboard() {
@@ -241,6 +310,25 @@ class ReadingTabletApp {
             toast.classList.remove('show');
             setTimeout(() => toast.remove(), 300);
         }, 3000);
+    }
+
+    /**
+     * Reading Guide 초기화
+     */
+    async initReadingGuide() {
+        try {
+            console.log('ReadingGuide 초기화 시작...');
+            // ES6 모듈 동적 임포트
+            const module = await import('./reading-guide.js');
+            console.log('ReadingGuide 모듈 로드 성공:', module);
+            const ReadingGuide = module.default;
+            this.readingGuide = new ReadingGuide();
+            console.log('ReadingGuide 인스턴스 생성 성공:', this.readingGuide);
+            console.log('ReadingGuide 초기화 완료 (자동 시작 모드)');
+        } catch (error) {
+            console.error('ReadingGuide 로드 실패:', error);
+            alert('ReadingGuide 로드 실패: ' + error.message);
+        }
     }
 }
 
