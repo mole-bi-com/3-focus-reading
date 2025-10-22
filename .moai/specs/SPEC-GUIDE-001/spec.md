@@ -1,9 +1,9 @@
 ---
 id: GUIDE-001
-version: 0.0.1
-status: draft
+version: 0.1.0
+status: completed
 created: 2025-10-21
-updated: 2025-10-21
+updated: 2025-10-22
 author: @seungwoolee
 priority: high
 category: feature
@@ -17,6 +17,23 @@ labels:
 # @SPEC:GUIDE-001: 노래방 스타일 읽기 가이드 모드
 
 ## HISTORY
+
+### v0.1.0 (2025-10-22)
+- **CHANGED**: TDD 구현 완료로 status: draft → completed
+- **CHANGED**: version: 0.0.1 → 0.1.0 (Minor 버전 증가)
+- **AUTHOR**: @seungwoolee
+- **IMPLEMENTATION**:
+  - ReadingGuide 클래스 구현 (js/reading-guide.js)
+  - 문장 단위 하이라이트 (3문장 슬라이딩 윈도우)
+  - 좌우 화살표 키 탐색 기능
+  - 포커스 모드 (F키 토글)
+  - LocalStorage 상태 저장/로드
+  - 자동 시작 (포맷팅 후)
+- **TESTS**:
+  - 단위 테스트: 12개 작성 및 통과 (Vitest)
+  - 통합 테스트: Playwright 브라우저 자동화 검증
+  - 3문장 슬라이딩 윈도우 정상 동작 확인
+- **TAG CHAIN**: @SPEC:GUIDE-001 → @TEST:GUIDE-001 → @CODE:GUIDE-001 → @DOC:GUIDE-001
 
 ### v0.0.1 (2025-10-21)
 - **INITIAL**: 노래방 스타일 읽기 가이드 모드 명세 최초 작성
