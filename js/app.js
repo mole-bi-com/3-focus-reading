@@ -1,5 +1,5 @@
 /**
- * Reading Tablet - 메인 애플리케이션
+ * 3-focus-reading - 메인 애플리케이션
  */
 
 class ReadingTabletApp {

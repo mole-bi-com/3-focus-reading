@@ -1,4 +1,4 @@
-# reading tablet - MoAI-Agentic Development Kit
+# 3-focus-reading - MoAI-Agentic Development Kit
 
 **SPEC-First TDD Development with Alfred SuperAgent**
 
@@ -873,7 +873,7 @@ Alfred가 모든 코드에 적용하는 품질 기준:
 
 ## 프로젝트 정보
 
-- **이름**: reading tablet
+- **이름**: 3-focus-reading
 - **설명**: 
 - **버전**: 0.1.0
 - **모드**: personal

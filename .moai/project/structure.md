@@ -8,7 +8,7 @@ author: @architect
 priority: medium
 ---
 
-# reading tablet Structure Design
+# 3-focus-reading Structure Design
 
 ## HISTORY
 

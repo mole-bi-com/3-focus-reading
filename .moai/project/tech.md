@@ -8,7 +8,7 @@ author: @tech-lead
 priority: medium
 ---
 
-# reading tablet Technology Stack
+# 3-focus-reading Technology Stack
 
 ## HISTORY
 
