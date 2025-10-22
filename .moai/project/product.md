@@ -8,7 +8,7 @@ author: @project-owner
 priority: high
 ---
 
-# reading tablet Product Definition
+# 3-focus-reading Product Definition
 
 ## HISTORY
 
@@ -40,7 +40,7 @@ priority: high
 
 > **"SPEC이 없으면 CODE도 없다."**
 
-reading tablet는 **SPEC-First TDD 방법론**을 통해 플랑켄슈타인 코드를 근본적으로 방지하는 프로젝트입니다.
+3-focus-reading은 **SPEC-First TDD 방법론**을 통해 플랑켄슈타인 코드를 근본적으로 방지하는 프로젝트입니다.
 
 ### 핵심 가치 제안
 

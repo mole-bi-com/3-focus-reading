@@ -1,13 +1,13 @@
-# 📖 Reading Tablet
+# 🎯 3-focus-reading
 
-텍스트 가독성을 개선하는 스마트 포매터
+3문장 슬라이딩 윈도우 기반 집중 읽기 도구
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 ## 🎯 프로젝트 개요
 
-Reading Tablet은 **가독성이 떨어지는 텍스트를 자동으로 정리하고 포맷팅**하여 읽기 편한 형태로 변환해주는 웹 애플리케이션입니다.
+3-focus-reading은 **3문장 슬라이딩 윈도우 방식**으로 텍스트 집중도를 높이는 웹 애플리케이션입니다.
 
 특히 다음과 같은 상황에서 유용합니다:
 - YouTube 자막/트랜스크립트 정리
@@ -199,7 +199,7 @@ MIT License - 자유롭게 사용, 수정, 배포 가능합니다.
 
 ## 👨‍💻 제작자
 
-**Reading Tablet Team**
+**3-focus-reading Team**
 
 ## 🙏 감사의 말
 
