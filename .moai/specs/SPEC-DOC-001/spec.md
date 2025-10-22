@@ -1,7 +1,7 @@
 ---
 id: DOC-001
-version: 0.0.1
-status: draft
+version: 0.1.0
+status: completed
 created: 2025-10-22
 updated: 2025-10-22
 author: @seungwoolee
@@ -23,6 +23,20 @@ scope:
 # @SPEC:DOC-001: README 재작성 (3문장 집중 읽기 중심)
 
 ## HISTORY
+
+### v0.1.0 (2025-10-22)
+- **IMPLEMENTATION COMPLETED**: README 재작성 완료 (version: 0.0.1 → 0.1.0, status: draft → completed)
+- **AUTHOR**: @seungwoolee
+- **CHANGES**:
+  - 프로젝트 소개: 3문장 슬라이딩 윈도우 기능 최우선 강조
+  - 핵심 기능 3가지 명시: 슬라이딩 윈도우, 화살표 탐색, 포커스 모드
+  - 시각적 비교 섹션 추가: 일반 텍스트 뷰어 vs 3-focus-reading
+  - 사용 사례 테이블: ADHD, 외국어 학습, 속독 연습, 프로그래밍 문서, 긴 텍스트 분석
+  - 키보드 단축키 표 추가 (Ctrl+Enter, ← →, F 키)
+  - 빠른 시작 가이드 3단계로 단순화
+  - 추가 기능을 하위 섹션으로 재구성
+- **TAG CHAIN**: @SPEC:DOC-001 → @CODE:DOC-001 (README.md)
+- **STRUCTURE**: SPEC-DOC-001 구조 완전 반영 (3문장 집중 읽기 중심)
 
 ### v0.0.1 (2025-10-22)
 - **INITIAL**: README.md를 3문장 집중 읽기 기능 중심으로 재작성
