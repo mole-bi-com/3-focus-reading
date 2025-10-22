@@ -1,18 +1,24 @@
 /**
  * 3-focus-reading - 메인 애플리케이션
+ * @CODE:PROGRESS-001 통합
  */
 
 import ReadingGuide from './reading-guide.js';
+import { ProgressTracker } from './progress-tracker.js';
+import { MilestoneAnimator } from './milestone-animator.js';
 
 class ReadingTabletApp {
     constructor() {
         this.formatter = new TextFormatter();
         this.readingGuide = new ReadingGuide();
+        this.progressTracker = null; // 가이드 시작 시 초기화
+        this.milestoneAnimator = null; // 가이드 시작 시 초기화
         this.currentTheme = 'light';
         this.autoSaveKey = 'reading-tablet-autosave';
 
         this.initElements();
         this.initEventListeners();
+        this.initProgressSystem();
         this.loadAutoSave();
         this.loadTheme();
     }
@@ -78,6 +84,23 @@ class ReadingTabletApp {
             if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
                 e.preventDefault();
                 this.downloadText();
+            }
+        });
+    }
+
+    /**
+     * 진행도 시스템 초기화
+     * @CODE:PROGRESS-001 통합
+     */
+    initProgressSystem() {
+        // 마일스톤 달성 이벤트 리스너
+        document.addEventListener('milestone-achieved', (e) => {
+            const { milestone, progress } = e.detail;
+            console.log(`마일스톤 ${milestone}% 달성! (현재 ${progress}%)`);
+
+            // MilestoneAnimator가 있으면 폭죽 애니메이션 실행
+            if (this.milestoneAnimator) {
+                this.milestoneAnimator.celebrate(milestone);
             }
         });
     }
@@ -199,6 +222,19 @@ class ReadingTabletApp {
         if (!this.readingGuide.isActive) {
             try {
                 this.readingGuide.start();
+
+                // @CODE:PROGRESS-001 통합: ProgressTracker 및 MilestoneAnimator 초기화
+                this.progressTracker = new ProgressTracker(this.readingGuide);
+
+                const canvas = document.getElementById('fireworks-canvas');
+                this.milestoneAnimator = new MilestoneAnimator(canvas);
+
+                // 진행 바 표시
+                const progressContainer = document.querySelector('.progress-container');
+                if (progressContainer) {
+                    progressContainer.style.display = 'block';
+                }
+
                 this.guideToggle.textContent = '📖 가이드 종료';
                 this.guideToggle.classList.add('active');
                 this.showMessage('가이드 모드 시작 (← → 키로 문장 이동, F: 포커스 모드, ESC: 종료)', 'success');
@@ -208,6 +244,13 @@ class ReadingTabletApp {
             }
         } else {
             this.readingGuide.stop();
+
+            // @CODE:PROGRESS-001 통합: 진행 바 숨김
+            const progressContainer = document.querySelector('.progress-container');
+            if (progressContainer) {
+                progressContainer.style.display = 'none';
+            }
+
             this.guideToggle.textContent = '📖 가이드 모드';
             this.guideToggle.classList.remove('active');
             this.showMessage('가이드 모드 종료', 'info');

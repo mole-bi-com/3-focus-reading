@@ -23,6 +23,7 @@ class ReadingGuide {
 
         this.outputContainer = null;
         this.keydownHandler = null;
+        this.onIndexChangeCallback = null;
     }
 
     /**
@@ -31,6 +32,27 @@ class ReadingGuide {
     _log(...args) {
         if (this.debug) {
             console.log('[ReadingGuide]', ...args);
+        }
+    }
+
+    /**
+     * 인덱스 변경 콜백 설정
+     * @CODE:PROGRESS-001 통합
+     */
+    setOnIndexChange(callback) {
+        if (typeof callback !== 'function') {
+            throw new Error('Callback must be a function');
+        }
+        this.onIndexChangeCallback = callback;
+    }
+
+    /**
+     * 인덱스 변경 알림
+     * @CODE:PROGRESS-001 통합
+     */
+    _notifyIndexChange() {
+        if (this.onIndexChangeCallback && this.isActive) {
+            this.onIndexChangeCallback(this.currentIndex, this.sentences.length);
         }
     }
 
@@ -132,6 +154,7 @@ class ReadingGuide {
             this.updateSentenceStates();
             this.scrollToCurrentSentence();
             this.saveState();
+            this._notifyIndexChange(); // @CODE:PROGRESS-001 통합
         }
     }
 
@@ -144,6 +167,7 @@ class ReadingGuide {
             this.updateSentenceStates();
             this.scrollToCurrentSentence();
             this.saveState();
+            this._notifyIndexChange(); // @CODE:PROGRESS-001 통합
         }
     }
 
