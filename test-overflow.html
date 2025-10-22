@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오버플로우 테스트 - 3-focus-reading</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/reading-guide.css">
+    <style>
+        /* 테스트용 강조 스타일 */
+        .test-container {
+            margin: 2rem auto;
+            max-width: 1400px;
+            padding: 1rem;
+        }
+        .test-section {
+            margin-bottom: 3rem;
+            padding: 1rem;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            color: #4361ee;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        .test-label {
+            font-weight: 600;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <header style="text-align: center; margin-bottom: 2rem;">
+            <h1>🎯 오버플로우 테스트</h1>
+            <p class="subtitle">긴 영문 텍스트로 레이아웃 검증</p>
+        </header>
+
+        <!-- 테스트 1: 일반 출력 패널 스타일 -->
+        <div class="test-section">
+            <h3>테스트 1: 일반 출력 패널 (.text-area.output)</h3>
+            <div class="output-panel">
+                <div id="outputText" class="text-area output">
+                    <p>Today, we're introducing Claude Code on the web, a new way to delegate coding tasks directly from your browser. Now in beta as a research preview, you can assign multiple coding tasks to Claude that run on Anthropic-managed cloud infrastructure, perfect for tackling bug backlogs, routine fixes, or parallel development work. Run coding tasks in parallel</p>
+
+                    <p>Claude Code on the web lets you kick off coding sessions without opening your terminal. Connect your GitHub repositories, describe what you need, and Claude handles the implementation. Each session runs in its own isolated environment with real-time progress tracking, and you can actively steer Claude to adjust course as it's working through tasks. With Claude Code running in the cloud, you can now run multiple tasks in parallel across different repositories from a single interface and ship faster with automatic PR creation and clear change summaries. Flexible for every workflow</p>
+
+                    <p>The web interface complements your existing Claude Code workflow. Running tasks in the cloud is especially effective for: Answering questions about how projects work and how repositories are mapped</p>
+
+                    <p>Bugfixes and routine, well-defined tasks</p>
+
+                    <p>Backend changes, where Claude Code can use test-driven development to verify changes</p>
+
+                    <p>You can also use Claude Code on mobile. As part of this research preview, we're making Claude Code available on our iOS app so developers can explore coding with Claude on the go. It's an early preview, and we hope to quickly refine the mobile experience based on your feedback. Security-first cloud execution</p>
+
+                    <p>Every Claude Code task runs in an isolated sandbox environment with network and filesystem restrictions. Git interactions are handled through a secure proxy service that ensures Claude can only access authorized repositories—helping keep your code and credentials protected throughout the entire workflow. You can also add custom network configuration to choose what domains Claude Code can connect to from its sandbox. For example, you can allow Claude to download npm packages over the internet so that it can run tests and validate changes. Read our engineering blog and documentation for a deep dive on Claude Code's sandboxing approach. Getting started</p>
+
+                    <p>Claude Code on the web is available now in research preview for Pro and Max users. Visit claude.com/code to connect your first repository and start delegating tasks. Cloud-based sessions share rate limits with all other Claude Code usage. Explore our documentation to learn more.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 테스트 2: 긴 URL 포함 -->
+        <div class="test-section">
+            <h3>테스트 2: 긴 URL 포함</h3>
+            <div class="output-panel">
+                <div class="text-area output">
+                    <p>Visit our documentation at <a href="#">https://docs.claude.ai/en/docs/claude-code/getting-started/installation/advanced-configuration/network-settings</a> for more information.</p>
+                    <p>You can also check the engineering blog: <a href="#">https://www.anthropic.com/engineering/claude-code-sandboxing-approach-and-security-best-practices</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 테스트 3: 가이드 모드 스타일 -->
+        <div class="test-section">
+            <h3>테스트 3: 가이드 모드 문장 스타일</h3>
+            <div style="padding: 2rem; background: #f8f9fa; border-radius: 8px;">
+                <div class="test-label">이전 문장 (read-past):</div>
+                <span class="sentence read-past">Today, we're introducing Claude Code on the web, a new way to delegate coding tasks directly from your browser.</span>
+
+                <div class="test-label" style="margin-top: 1rem;">현재 문장 (read-current):</div>
+                <span class="sentence read-current">Now in beta as a research preview, you can assign multiple coding tasks to Claude that run on Anthropic-managed cloud infrastructure, perfect for tackling bug backlogs, routine fixes, or parallel development work.</span>
+
+                <div class="test-label" style="margin-top: 1rem;">다음 문장 (read-future):</div>
+                <span class="sentence read-future">Claude Code on the web lets you kick off coding sessions without opening your terminal.</span>
+            </div>
+        </div>
+
+        <!-- 테스트 4: 매우 긴 단어 (엣지 케이스) -->
+        <div class="test-section">
+            <h3>테스트 4: 엣지 케이스 - 매우 긴 단어</h3>
+            <div class="output-panel">
+                <div class="text-area output">
+                    <p>This is a test with supercalifragilisticexpialidocious and Pneumonoultramicroscopicsilicovolcanoconiosis words.</p>
+                    <p>Testing with no spaces: ThisIsAReallyLongTextWithoutAnySpacesThatShouldBreakProperlyWithoutCausingLayoutIssuesInTheOutputPanel</p>
+                    <p>Korean without spaces: 이것은띄어쓰기없이매우길게작성된한글문장으로레이아웃테스트용입니다절대로오버플로우가발생하면안됩니다</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 테스트 5: 가이드 모드 몰입 UI 시뮬레이션 -->
+        <div class="test-section">
+            <h3>테스트 5: 가이드 모드 몰입 UI (body.guide-active)</h3>
+            <div style="height: 400px; display: flex; align-items: center; justify-content: center; background: #f8f9fa; border-radius: 8px;">
+                <div style="text-align: center; max-width: 800px; padding: 2rem;">
+                    <div class="sentence read-past" style="display: block; font-size: 1.5rem; opacity: 0.4; margin-bottom: 1.5rem;">
+                        The web interface complements your existing Claude Code workflow.
+                    </div>
+                    <div class="sentence read-current" style="display: block; font-size: 2rem; margin-bottom: 1.5rem;">
+                        Running tasks in the cloud is especially effective for answering questions about how projects work and how repositories are mapped with comprehensive documentation and detailed explanations.
+                    </div>
+                    <div class="sentence read-future" style="display: block; font-size: 1.5rem; opacity: 0.4;">
+                        Bugfixes and routine, well-defined tasks can be handled efficiently.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 성공 지표 -->
+        <div class="test-section" style="background: #d4edda; border-color: #06d6a0;">
+            <h3 style="color: #06d6a0;">✅ 테스트 통과 조건</h3>
+            <ul style="line-height: 1.8;">
+                <li>모든 텍스트가 부모 컨테이너 안에 포함됨</li>
+                <li>긴 영문 단어가 적절히 줄바꿈됨</li>
+                <li>URL이 컨테이너를 벗어나지 않음</li>
+                <li>한글 텍스트가 자연스럽게 줄바꿈됨</li>
+                <li>가이드 모드에서 문장이 800px max-width 안에 포함됨</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

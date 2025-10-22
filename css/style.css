@@ -318,9 +318,24 @@ header h1 {
 .text-area.output p {
     margin-bottom: var(--spacing-md); /* 문장 간격 축소 */
     line-height: 1.6; /* 줄간격 축소 (1.8 → 1.6) */
-    word-break: keep-all;
+
+    /* 개선된 word-break 전략 - 오버플로우 방지 */
+    word-break: break-word;
     overflow-wrap: break-word;
+    hyphens: auto;
+
+    /* 컨테이너 제약 준수 */
+    max-width: 100%;
+    overflow: hidden;
+
     padding: var(--spacing-sm); /* 문장 내부 여백 */
+}
+
+/* 긴 URL이나 코드 블록 처리 */
+.text-area.output p code,
+.text-area.output p a {
+    word-break: break-all;
+    overflow-wrap: anywhere;
 }
 
 .text-area.output p:last-child {

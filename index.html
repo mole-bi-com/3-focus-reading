@@ -6,6 +6,8 @@
     <title>3-focus-reading - 3문장 집중 읽기 도구</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/reading-guide.css">
+    <link rel="stylesheet" href="css/progress-bar.css">
+    <link rel="stylesheet" href="css/fireworks.css">
 </head>
 <body>
     <div class="container">
@@ -26,7 +28,7 @@
 
                 <div class="control-group">
                     <button id="formatBtn" class="btn btn-primary">✨ 포맷팅</button>
-                    <button id="guideToggle" class="btn btn-secondary">📖 가이드 모드</button>
+                    <button id="guideToggle" class="btn btn-secondary">🎯 start 3-focus</button>
                     <button id="copyBtn" class="btn btn-secondary">📋 복사</button>
                     <button id="downloadBtn" class="btn btn-secondary">💾 저장</button>
                 </div>
@@ -72,6 +74,17 @@
             <p>💡 자동 저장이 활성화되어 있습니다</p>
         </footer>
     </div>
+
+    <!-- Progress Bar UI -->
+    <div class="progress-container" style="display: none;">
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <div class="progress-text">0.0%</div>
+    </div>
+
+    <!-- Fireworks Canvas -->
+    <canvas id="fireworks-canvas"></canvas>
 
     <script src="js/formatter.js"></script>
     <script type="module" src="js/app.js"></script>

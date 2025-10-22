@@ -1,0 +1,95 @@
+/* @CODE:PROGRESS-001:UI | SPEC: SPEC-PROGRESS-001.md | TEST: tests/progress/progress-bar-ui.test.js */
+
+/* 폭죽 Canvas 레이어 */
+#fireworks-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* 토스트 메시지 */
+.toast-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 20px 40px;
+  border-radius: 8px;
+  font-size: 24px;
+  font-weight: bold;
+  z-index: 10000;
+  animation: fadeInOut 2.5s ease-in-out;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* 페이드 인/아웃 애니메이션 */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+}
+
+/* 토스트 메시지 - 완독 축하 스타일 */
+.toast-message.completion {
+  font-size: 28px;
+  padding: 24px 48px;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.9), rgba(139, 195, 74, 0.9));
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .toast-message {
+    font-size: 20px;
+    padding: 16px 32px;
+  }
+
+  .toast-message.completion {
+    font-size: 24px;
+    padding: 20px 40px;
+  }
+}
+
+/* 접근성: prefers-reduced-motion 지원 */
+@media (prefers-reduced-motion: reduce) {
+  .toast-message {
+    animation: none;
+    /* 애니메이션 없이 바로 표시 */
+  }
+
+  #fireworks-canvas {
+    /* 폭죽 애니메이션 비활성화 시 Canvas 숨김 */
+    display: none;
+  }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+  .toast-message {
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .toast-message.completion {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.95), rgba(139, 195, 74, 0.95));
+  }
+}

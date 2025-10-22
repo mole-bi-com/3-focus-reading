@@ -90,6 +90,12 @@ body.guide-active .sentence.read-current {
     font-size: 2rem;
     line-height: 1.8;
     max-width: 800px;
+
+    /* 오버플로우 방지 */
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+
     margin-bottom: var(--spacing-lg);
 }
 
