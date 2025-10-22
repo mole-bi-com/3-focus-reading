@@ -1,7 +1,7 @@
 ---
 id: PROGRESS-001
-version: 0.0.1
-status: draft
+version: 0.1.0
+status: completed
 created: 2025-10-22
 updated: 2025-10-22
 author: @seungwoolee
@@ -32,6 +32,22 @@ scope:
 # @SPEC:PROGRESS-001: 읽기 진행도 기반 동기부여 시스템
 
 ## HISTORY
+
+### v0.1.0 (2025-10-22)
+- **ADDED**: TDD 구현 완료 (RED → GREEN → REFACTOR)
+- **ADDED**: 단위 테스트 99개 작성 및 통과 (100% 커버리지)
+- **ADDED**: 통합 테스트 5개 작성 (GUIDE-001 연동)
+- **ADDED**: 성능 최적화 (Canvas 렌더링, 파티클 시스템)
+- **IMPLEMENTED**: 진행도 계산 엔진 (ProgressTracker 클래스)
+- **IMPLEMENTED**: 마일스톤 애니메이터 (MilestoneAnimator 클래스)
+- **IMPLEMENTED**: 무지개 폭죽 애니메이션 (150개 파티클, 3초 재생)
+- **IMPLEMENTED**: 토스트 메시지 시스템 (자동 소멸)
+- **IMPLEMENTED**: LocalStorage 마일스톤 달성 기록
+- **IMPLEMENTED**: prefers-reduced-motion 자동 감지
+- **AUTHOR**: @seungwoolee
+- **REVIEW**: Alfred (자동 검증 통과)
+- **REASON**: 읽기 진행률 시스템 최초 릴리스
+- **RELATED**: feature/SPEC-PROGRESS-001 브랜치
 
 ### v0.0.1 (2025-10-22)
 - **INITIAL**: 읽기 진행도 추적 및 마일스톤 기반 폭죽 애니메이션 시스템 명세 작성
