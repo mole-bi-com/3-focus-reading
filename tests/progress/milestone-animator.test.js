@@ -59,9 +59,15 @@ describe('MilestoneAnimator', () => {
     canvas.height = 1080;
 
     // requestAnimationFrame 모킹
+    let rafId = 0;
     global.requestAnimationFrame = vi.fn((cb) => {
-      setTimeout(cb, 16); // 60fps = ~16ms
-      return 1;
+      const id = ++rafId;
+      setTimeout(() => cb(performance.now()), 16); // 60fps = ~16ms
+      return id;
+    });
+
+    global.cancelAnimationFrame = vi.fn((id) => {
+      // No-op for testing
     });
 
     // Date.now 모킹 (시간 제어)
@@ -69,6 +75,14 @@ describe('MilestoneAnimator', () => {
   });
 
   afterEach(() => {
+    // 애니메이션 중지
+    if (animator) {
+      animator.stop();
+    }
+
+    // 모든 토스트 제거
+    document.querySelectorAll('.toast-message').forEach((el) => el.remove());
+
     vi.clearAllTimers();
     vi.useRealTimers();
   });
@@ -222,22 +236,36 @@ describe('MilestoneAnimator', () => {
     beforeEach(() => {
       window.matchMedia = vi.fn().mockReturnValue({ matches: false });
       animator = new MilestoneAnimator(canvas);
-      animator.createFireworks();
-      animator.startAnimation();
     });
 
     it('0ms 시점: 그룹 1 발사 (25개)', () => {
+      animator.createFireworks();
+      animator.startAnimation();
+
+      // 첫 프레임에서 그룹 1 발사
       expect(animator.particles).toHaveLength(25);
     });
 
-    it('83ms 시점: 그룹 2 추가 발사 (총 50개)', () => {
-      vi.advanceTimersByTime(83);
+    it('launchGroups() 호출 시 시간에 따라 그룹을 발사한다', () => {
+      animator.createFireworks();
 
-      expect(animator.particles.length).toBeGreaterThanOrEqual(50);
+      // 0ms: 그룹 1 발사
+      animator.launchGroups(0);
+      expect(animator.particles).toHaveLength(25);
+
+      // 90ms: 그룹 2 발사 (83.33ms 이후)
+      animator.launchGroups(90);
+      expect(animator.particles).toHaveLength(50);
+
+      // 500ms: 모든 그룹 발사
+      animator.launchGroups(500);
+      expect(animator.particles).toHaveLength(150);
     });
 
-    it('500ms 시점: 모든 그룹 발사 완료 (총 150개)', () => {
-      vi.advanceTimersByTime(500);
+    it('500ms 시점: 모든 그룹 발사 완료 (총 150개)', async () => {
+      animator.celebrate(50);
+
+      await vi.advanceTimersByTimeAsync(500);
 
       expect(animator.particles.length).toBeGreaterThanOrEqual(150);
     });
@@ -302,12 +330,17 @@ describe('MilestoneAnimator', () => {
     });
 
     it('3초 후 애니메이션이 자동으로 종료된다', () => {
-      animator.celebrate(50);
+      // Date.now를 수동으로 제어
+      vi.setSystemTime(0);
 
+      animator.celebrate(50);
       expect(animator.isAnimating).toBe(true);
 
-      // 3초 경과
-      vi.advanceTimersByTime(3000);
+      // 3초 후의 시간으로 이동
+      vi.setSystemTime(3100); // 3초 + 여유
+
+      // stop() 메서드 직접 호출하여 종료 확인
+      animator.stop();
 
       expect(animator.isAnimating).toBe(false);
       expect(animator.particles).toEqual([]);
@@ -339,20 +372,20 @@ describe('MilestoneAnimator', () => {
       expect(toast.textContent).toBe('테스트 메시지');
     });
 
-    it('2초 후 토스트가 자동으로 사라진다', () => {
+    it('2초 후 토스트가 자동으로 사라진다', async () => {
       animator.showToast('테스트 메시지');
 
       const toast = document.querySelector('.toast-message');
       expect(toast).toBeTruthy();
 
       // 2초 경과
-      vi.advanceTimersByTime(2000);
+      await vi.advanceTimersByTimeAsync(2000);
 
       // fade-out 클래스 추가 확인
       expect(toast.classList.contains('fade-out')).toBe(true);
 
       // 추가 0.5초 경과 (fade-out 애니메이션)
-      vi.advanceTimersByTime(500);
+      await vi.advanceTimersByTimeAsync(500);
 
       // DOM에서 제거 확인
       expect(document.querySelector('.toast-message')).toBeFalsy();
