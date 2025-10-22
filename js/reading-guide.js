@@ -13,15 +13,25 @@
  */
 
 class ReadingGuide {
-    constructor() {
-        this.wpm = 200;
+    constructor(options = {}) {
+        this.wpm = options.wpm || 200;
         this.currentIndex = 0;
         this.sentences = [];
         this.isActive = false;
         this.isFocusMode = false;
+        this.debug = options.debug || false;
 
         this.outputContainer = null;
         this.keydownHandler = null;
+    }
+
+    /**
+     * 디버그 로그 출력
+     */
+    _log(...args) {
+        if (this.debug) {
+            console.log('[ReadingGuide]', ...args);
+        }
     }
 
     /**
@@ -39,16 +49,16 @@ class ReadingGuide {
      * 가이드 모드 시작 - 문장 단위로 분리
      */
     start() {
-        console.log('start() 메서드 시작');
+        this._log('start() 메서드 시작');
         this.outputContainer = document.getElementById('outputText');
-        console.log('outputContainer:', this.outputContainer);
+        this._log('outputContainer:', this.outputContainer);
 
         if (!this.outputContainer) {
             throw new Error('출력 영역을 찾을 수 없습니다');
         }
 
         const paragraphs = Array.from(this.outputContainer.querySelectorAll('p'));
-        console.log('paragraphs 개수:', paragraphs.length);
+        this._log('paragraphs 개수:', paragraphs.length);
 
         if (paragraphs.length === 0) {
             throw new Error('포맷팅된 텍스트가 없습니다. 먼저 "✨ 포맷팅" 버튼을 눌러주세요.');
@@ -56,15 +66,15 @@ class ReadingGuide {
 
         // 모든 단락을 문장 단위로 분리
         this.sentences = [];
-        console.log('문장 분리 시작');
+        this._log('문장 분리 시작');
 
         paragraphs.forEach((p, pIndex) => {
             const text = p.textContent;
-            console.log(`단락 ${pIndex + 1} 텍스트 길이:`, text.length);
+            this._log(`단락 ${pIndex + 1} 텍스트 길이:`, text.length);
 
             // 문장 분리 (. ! ? 기준)
             const sentenceTexts = text.match(/[^.!?]+[.!?]+/g) || [text];
-            console.log(`단락 ${pIndex + 1} 문장 개수:`, sentenceTexts.length);
+            this._log(`단락 ${pIndex + 1} 문장 개수:`, sentenceTexts.length);
 
             const spans = [];
             sentenceTexts.forEach((sentenceText, sIndex) => {
@@ -78,21 +88,21 @@ class ReadingGuide {
                 }
             });
 
-            console.log(`단락 ${pIndex + 1} span 개수:`, spans.length);
+            this._log(`단락 ${pIndex + 1} span 개수:`, spans.length);
 
             // 원본 단락을 span들로 대체
             p.innerHTML = '';
             spans.forEach(span => p.appendChild(span));
         });
 
-        console.log('전체 문장 개수:', this.sentences.length);
+        this._log('전체 문장 개수:', this.sentences.length);
 
         this.isActive = true;
         this.currentIndex = 0;
         this.updateSentenceStates();
         this.attachKeyboardEvents();
 
-        console.log('start() 메서드 완료');
+        this._log('start() 메서드 완료');
     }
 
     /**
@@ -225,17 +235,17 @@ class ReadingGuide {
                 return;
             }
 
-            console.log('Key pressed:', e.key, 'Current index:', this.currentIndex);
+            this._log('Key pressed:', e.key, 'Current index:', this.currentIndex);
 
             switch(e.key) {
                 case 'ArrowRight': // 다음 문장
                     e.preventDefault();
-                    console.log('Moving to next sentence');
+                    this._log('Moving to next sentence');
                     this.next();
                     break;
                 case 'ArrowLeft': // 이전 문장
                     e.preventDefault();
-                    console.log('Moving to previous sentence');
+                    this._log('Moving to previous sentence');
                     this.prev();
                     break;
                 case 'f':
@@ -255,7 +265,7 @@ class ReadingGuide {
         };
 
         document.addEventListener('keydown', this.keydownHandler);
-        console.log('Keyboard events attached');
+        this._log('Keyboard events attached');
     }
 
     /**

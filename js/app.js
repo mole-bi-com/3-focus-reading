@@ -196,28 +196,21 @@ class ReadingTabletApp {
     }
 
     toggleGuide() {
-        console.log('toggleGuide() 호출됨');
-        console.log('readingGuide.isActive:', this.readingGuide.isActive);
-
         if (!this.readingGuide.isActive) {
             try {
-                console.log('가이드 모드 시작 시도');
                 this.readingGuide.start();
                 this.guideToggle.textContent = '📖 가이드 종료';
                 this.guideToggle.classList.add('active');
                 this.showMessage('가이드 모드 시작 (← → 키로 문장 이동, F: 포커스 모드, ESC: 종료)', 'success');
-                console.log('가이드 모드 시작 성공');
             } catch (error) {
                 console.error('가이드 모드 시작 실패:', error);
                 this.showMessage(error.message, 'error');
             }
         } else {
-            console.log('가이드 모드 종료 시도');
             this.readingGuide.stop();
             this.guideToggle.textContent = '📖 가이드 모드';
             this.guideToggle.classList.remove('active');
             this.showMessage('가이드 모드 종료', 'info');
-            console.log('가이드 모드 종료 완료');
         }
     }
 
