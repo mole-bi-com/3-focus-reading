@@ -2,9 +2,12 @@
  * Reading Tablet - 메인 애플리케이션
  */
 
+import ReadingGuide from './reading-guide.js';
+
 class ReadingTabletApp {
     constructor() {
         this.formatter = new TextFormatter();
+        this.readingGuide = new ReadingGuide();
         this.currentTheme = 'light';
         this.autoSaveKey = 'reading-tablet-autosave';
 
@@ -29,6 +32,7 @@ class ReadingTabletApp {
         this.fileInput = document.getElementById('fileInput');
         this.themeToggle = document.getElementById('themeToggle');
         this.fontSize = document.getElementById('fontSize');
+        this.guideToggle = document.getElementById('guideToggle');
     }
 
     initEventListeners() {
@@ -52,6 +56,9 @@ class ReadingTabletApp {
 
         // Font size
         this.fontSize.addEventListener('change', (e) => this.changeFontSize(e.target.value));
+
+        // Guide toggle
+        this.guideToggle.addEventListener('click', () => this.toggleGuide());
 
         // Input change - auto save
         this.inputText.addEventListener('input', () => {
@@ -186,6 +193,32 @@ class ReadingTabletApp {
     changeFontSize(size) {
         document.body.setAttribute('data-font-size', size);
         localStorage.setItem('reading-tablet-font-size', size);
+    }
+
+    toggleGuide() {
+        console.log('toggleGuide() 호출됨');
+        console.log('readingGuide.isActive:', this.readingGuide.isActive);
+
+        if (!this.readingGuide.isActive) {
+            try {
+                console.log('가이드 모드 시작 시도');
+                this.readingGuide.start();
+                this.guideToggle.textContent = '📖 가이드 종료';
+                this.guideToggle.classList.add('active');
+                this.showMessage('가이드 모드 시작 (← → 키로 문장 이동, F: 포커스 모드, ESC: 종료)', 'success');
+                console.log('가이드 모드 시작 성공');
+            } catch (error) {
+                console.error('가이드 모드 시작 실패:', error);
+                this.showMessage(error.message, 'error');
+            }
+        } else {
+            console.log('가이드 모드 종료 시도');
+            this.readingGuide.stop();
+            this.guideToggle.textContent = '📖 가이드 모드';
+            this.guideToggle.classList.remove('active');
+            this.showMessage('가이드 모드 종료', 'info');
+            console.log('가이드 모드 종료 완료');
+        }
     }
 
     loadTheme() {
