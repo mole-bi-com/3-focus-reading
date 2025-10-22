@@ -235,7 +235,7 @@ class ReadingTabletApp {
                     progressContainer.style.display = 'block';
                 }
 
-                this.guideToggle.textContent = '📖 가이드 종료';
+                this.guideToggle.textContent = '🎯 start 3-focus';
                 this.guideToggle.classList.add('active');
                 this.showMessage('가이드 모드 시작 (← → 키로 문장 이동, F: 포커스 모드, ESC: 종료)', 'success');
             } catch (error) {
@@ -251,7 +251,7 @@ class ReadingTabletApp {
                 progressContainer.style.display = 'none';
             }
 
-            this.guideToggle.textContent = '📖 가이드 모드';
+            this.guideToggle.textContent = '🎯 start 3-focus';
             this.guideToggle.classList.remove('active');
             this.showMessage('가이드 모드 종료', 'info');
         }
