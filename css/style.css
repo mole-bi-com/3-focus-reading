@@ -200,24 +200,70 @@ header h1 {
 /* ===== 에디터 컨테이너 ===== */
 .editor-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-xl);
-    margin-bottom: var(--spacing-xl);
+    grid-template-columns: 30% 70%; /* 3문장 윈도우 최적화: 입력 축소, 출력 확대 */
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
 }
 
-@media (max-width: 1024px) {
+/* 포커스 모드 (F키 활성화 시) */
+.focus-mode .input-panel {
+    display: none; /* 입력창 숨김 */
+}
+
+.focus-mode .output-panel {
+    grid-column: 1 / -1; /* 전체 너비 */
+    max-width: 100%;
+}
+
+.focus-mode .text-area.output {
+    max-width: 700px; /* 포커스 시 약간 더 넓게 */
+}
+
+/* 반응형: 태블릿 */
+@media (min-width: 768px) and (max-width: 1023px) {
     .editor-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: 35% 65%;
+    }
+
+    .text-area.output {
+        max-width: 500px;
     }
 }
 
-.input-panel,
-.output-panel {
+/* 반응형: 모바일 */
+@media (max-width: 767px) {
+    .editor-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        gap: var(--spacing-md);
+    }
+
+    .input-panel {
+        max-height: 200px;
+    }
+
+    .text-area.output {
+        max-width: 100%;
+        padding: var(--spacing-xs);
+    }
+}
+
+.input-panel {
     display: flex;
     flex-direction: column;
     background: var(--bg-secondary);
     border-radius: var(--radius-lg);
     overflow: hidden;
+}
+
+.output-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 3문장 윈도우 센터 정렬 */
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    padding: var(--spacing-md);
     box-shadow: var(--shadow-md);
 }
 
@@ -263,14 +309,18 @@ header h1 {
 .text-area.output {
     background: var(--bg-primary);
     border: none;
+    max-width: 600px; /* 3문장 윈도우 최적 너비 */
+    width: 100%;
+    padding: var(--spacing-sm); /* 여백 축소 */
 }
 
 /* 출력 텍스트 스타일 */
 .text-area.output p {
-    margin-bottom: var(--spacing-lg);
-    line-height: var(--line-height-reading);
+    margin-bottom: var(--spacing-md); /* 문장 간격 축소 */
+    line-height: 1.6; /* 줄간격 축소 (1.8 → 1.6) */
     word-break: keep-all;
     overflow-wrap: break-word;
+    padding: var(--spacing-sm); /* 문장 내부 여백 */
 }
 
 .text-area.output p:last-child {
