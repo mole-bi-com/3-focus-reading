@@ -216,7 +216,7 @@ header h1 {
 }
 
 .focus-mode .text-area.output {
-    max-width: 700px; /* 포커스 시 약간 더 넓게 */
+    max-width: 1000px; /* 포커스 시 약간 더 넓게 */
 }
 
 /* 반응형: 태블릿 */
@@ -309,7 +309,7 @@ header h1 {
 .text-area.output {
     background: var(--bg-primary);
     border: none;
-    max-width: 600px; /* 3문장 윈도우 최적 너비 */
+    max-width: 900px; /* 3문장 윈도우 최적 너비 - 더 넓게 조정 */
     width: 100%;
     padding: var(--spacing-sm); /* 여백 축소 */
 }
