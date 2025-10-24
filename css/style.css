@@ -371,15 +371,15 @@ footer {
 /* ===== 토스트 메시지 ===== */
 .toast {
     position: fixed;
-    bottom: var(--spacing-xl);
-    right: var(--spacing-xl);
+    top: var(--spacing-xl);
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
     padding: var(--spacing-md) var(--spacing-lg);
     background: var(--bg-tertiary);
     color: var(--text-primary);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-lg);
     opacity: 0;
-    transform: translateY(20px);
     transition: all 0.3s ease;
     z-index: 1000;
     max-width: 400px;
@@ -387,7 +387,7 @@ footer {
 
 .toast.show {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0);
 }
 
 .toast-success {

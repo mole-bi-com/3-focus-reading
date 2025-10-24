@@ -389,6 +389,19 @@ body.guide-active .sentence.read-future {
     }
 }
 
+/* ===== 가이드 모드 토스트 메시지 ===== */
+body.guide-active .toast {
+    top: var(--spacing-xl) !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: translateX(-50%) translateY(-100px) !important;
+}
+
+body.guide-active .toast.show {
+    transform: translateX(-50%) translateY(0) !important;
+}
+
 /* 다크 모드 최적화 */
 [data-theme="dark"] #outputText p.read-current {
     -webkit-text-fill-color: var(--accent-color);
